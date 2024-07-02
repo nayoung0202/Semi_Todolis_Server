@@ -14,17 +14,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member {
-    public Member(long member_id, String name, String email, String passwd){
-
-    }
-    long member_id;
+    long id;
     @NotNull
-    String name;
+    String nickname;
     @NotEmpty
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$", message = "이메일 형식에 맞지 않습니다.")
     String email;
     @Size(min = 8)
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$")
     String passwd;
-    String pwcheck;
+
+
 }

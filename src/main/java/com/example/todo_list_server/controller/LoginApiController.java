@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/api")
 public class LoginApiController {
 
     @Autowired
@@ -20,4 +20,15 @@ public class LoginApiController {
 
     }
 
+    //로그인
+    @PostMapping("/login")
+    public void readMember(@RequestBody RequestTodo requestTodo) {
+
+    }
+
+    //로그아웃
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/login";
+    }
 }
