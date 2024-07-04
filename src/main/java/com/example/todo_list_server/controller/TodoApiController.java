@@ -30,35 +30,38 @@ public class TodoApiController {
     @Autowired
     TodoMapper todoMapper;
 
+    //생성자 생성(필수)
     @Autowired
     public TodoApiController(TodoMapper todoMapper) {
         this.todoMapper = todoMapper;
     }
 
-
     //등록
     @PostMapping("")
-    public void save(RequestTodo requestTodo) {
-
+    public void save(@RequestBody RequestTodo todo) {
+        todoMapper.addTodo(todo);
     }
 
     //수정
     @PutMapping("/{id}")
-    public ArrayList<ResponseTodo> update(@PathVariable long id, @RequestBody RequestTodo requestTodo) {
-        return todoMapper.getById(id);
+    public int update(@PathVariable long id, @RequestBody RequestTodo requestTodo) {
+
+        requestTodo.setId(id);
+
+        return todoMapper.TodoUpdate(requestTodo);
     }
 
     //조회 (내용)
     @GetMapping("")
     public ArrayList<ResponseTodo> readAll() {
-        System.out.println(todoMapper.getAllContent());
+//        System.out.println(todoMapper.getAllContent());
         return todoMapper.getAllContent();
     }
 
     //특정 조회
     @GetMapping("/{id}")
     public ArrayList<ResponseTodo> read(@PathVariable long id) {
-        System.out.println(todoMapper.getById(id));
+//        System.out.println(todoMapper.getById(id));
         return todoMapper.getById(id);
 
     }
@@ -66,7 +69,7 @@ public class TodoApiController {
     //삭제
     @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {
-
+        todoMapper.TodoDelete(id);
     }
 
 }

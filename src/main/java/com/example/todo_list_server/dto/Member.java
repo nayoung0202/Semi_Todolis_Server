@@ -14,6 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member {
+    @NotEmpty
     long id;
     @NotNull
     String nickname;
@@ -23,6 +24,7 @@ public class Member {
     @Size(min = 8)
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$")
     String passwd;
+    String check;
 
 
 }
