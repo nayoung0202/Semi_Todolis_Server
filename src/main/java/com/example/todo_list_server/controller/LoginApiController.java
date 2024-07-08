@@ -1,15 +1,14 @@
 package com.example.todo_list_server.controller;
 
-import com.example.todo_list_server.Mapper.TodoMapper;
 import com.example.todo_list_server.Mapper.UserMapper;
 import com.example.todo_list_server.dto.Member;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api")
@@ -41,18 +40,31 @@ public class LoginApiController {
 
     //로그인
     @PostMapping("/login")
-    public Long readMember(@RequestBody Member member, HttpServletRequest request) {
+    public Member readMember(@RequestBody Member member, HttpServletRequest request, HttpServletResponse response) {
         String email = member.getEmail();
         String passwd = member.getPasswd();
 
         Member findMember = userMapper.findMember(member);
-        if (findMember.getEmail().equals(email) && findMember.getPasswd().equals(passwd)) {
-            HttpSession session = request.getSession(true); //세션 생성
+        if (findMember != null && findMember.getEmail().equals(email) && findMember.getPasswd().equals(passwd)) {
+            HttpSession session = request.getSession(true); // 세션 생성
             session.setAttribute("member", findMember.getEmail());
+
+            // 쿠키 생성
+            Cookie cookie = new Cookie("memberId", String.valueOf(findMember.getId()));
+            cookie.setMaxAge(24 * 60 * 60); // 쿠키 유효 시간 설정 (예: 1일)
+            cookie.setPath("/"); // 쿠키의 유효 경로 설정 (루트로 설정하면 전체 애플리케이션에서 사용 가능)
+
+            response.addCookie(cookie); // 응답에 쿠키 추가
+
+            Member responseMember = new Member();
+            responseMember.setId(findMember.getId());
+            responseMember.setNickname(findMember.getNickname());
+            return responseMember; // 로그인 성공시 id, nickname 반환
         }
 
-        return null;
+        return null; // 로그인 실패시 null 반환
     }
+
 
     //로그아웃
     @GetMapping("/logout")

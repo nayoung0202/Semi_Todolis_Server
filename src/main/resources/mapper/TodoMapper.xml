@@ -3,7 +3,7 @@
 <mapper namespace="com.example.todo_list_server.Mapper.TodoMapper">
 
     <select id="getById" parameterType="long" resultType="com.example.todo_list_server.dto.ResponseTodo">
-        SELECT * FROM todo WHERE content_id = #{id}
+        SELECT * FROM todo WHERE content_id = #{contentId}
     </select>
 
     <select id="getAllContent" resultType="com.example.todo_list_server.dto.ResponseTodo">
@@ -11,18 +11,18 @@
     </select>
 
     <delete id="TodoDelete" parameterType="long">
-        DELETE FROM todo WHERE content_id = #{content_id}
+        DELETE FROM todo WHERE content_id = #{contentId}
     </delete>
 
     <update id="TodoUpdate" parameterType="com.example.todo_list_server.dto.RequestTodo" >
         UPDATE todo
         SET content = #{content}
-        WHERE content_id = #{content_id} AND id = #{id}
+        WHERE content_id = #{contentId} AND id = #{memberId}
     </update>
 
     <insert id="addTodo" parameterType="com.example.todo_list_server.dto.RequestTodo">
-        INSERT INTO todo (id, content, content_id)
-        VALUES (#{id}, #{content}, #{content_id})
+        INSERT INTO todo (member_id, content)
+        VALUES (#{memberId}, #{content})
     </insert>
 
 </mapper>

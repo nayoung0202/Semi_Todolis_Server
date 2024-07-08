@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 public class RequestTodo {
     //클라이언트에서 서버로 요청할 때 필요
-   long id;
-   String name;
-   long content_id;
+   long memberId; // memberId
+   String name; // nickName
+   long contentId;
    String content;
 
 }

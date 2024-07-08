@@ -39,6 +39,7 @@ public class TodoApiController {
     //등록
     @PostMapping("")
     public void save(@RequestBody RequestTodo todo) {
+        System.out.println(todo);
         todoMapper.addTodo(todo);
     }
 
@@ -46,7 +47,7 @@ public class TodoApiController {
     @PutMapping("/{id}")
     public int update(@PathVariable long id, @RequestBody RequestTodo requestTodo) {
 
-        requestTodo.setId(id);
+        requestTodo.setMemberId(id);
 
         return todoMapper.TodoUpdate(requestTodo);
     }
@@ -55,6 +56,7 @@ public class TodoApiController {
     @GetMapping("")
     public ArrayList<ResponseTodo> readAll() {
 //        System.out.println(todoMapper.getAllContent());
+        System.out.println("GET ALL");
         return todoMapper.getAllContent();
     }
 
@@ -62,6 +64,7 @@ public class TodoApiController {
     @GetMapping("/{id}")
     public ArrayList<ResponseTodo> read(@PathVariable long id) {
 //        System.out.println(todoMapper.getById(id));
+        System.out.println("GET id " + id);
         return todoMapper.getById(id);
 
     }
