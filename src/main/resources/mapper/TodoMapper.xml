@@ -3,7 +3,11 @@
 <mapper namespace="com.example.todo_list_server.Mapper.TodoMapper">
 
     <select id="getById" parameterType="long" resultType="com.example.todo_list_server.dto.ResponseTodo">
-        SELECT * FROM todo WHERE content_id = #{contentId}
+        SELECT
+              content
+             , content_id as contentId
+        FROM todo
+        WHERE member_id = #{memberId}
     </select>
 
     <select id="getAllContent" resultType="com.example.todo_list_server.dto.ResponseTodo">

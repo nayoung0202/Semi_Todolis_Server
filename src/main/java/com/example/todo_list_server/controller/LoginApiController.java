@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -30,7 +31,7 @@ public class LoginApiController {
         // 기존 회원이면 가입 안됨
         Member findMember = userMapper.findMember(member);
         if (findMember != null){
-            return "이미 있습니다.";
+            return "이미 존재하는 회원입니다.";
         }
 
         userMapper.SignUp(member);
@@ -40,7 +41,8 @@ public class LoginApiController {
 
     //로그인
     @PostMapping("/login")
-    public Member readMember(@RequestBody Member member, HttpServletRequest request, HttpServletResponse response) {
+    public String readMember(@RequestBody Member member, HttpServletRequest request, HttpServletResponse response) {
+
         String email = member.getEmail();
         String passwd = member.getPasswd();
 
@@ -50,7 +52,8 @@ public class LoginApiController {
             session.setAttribute("member", findMember.getEmail());
 
             // 쿠키 생성
-            Cookie cookie = new Cookie("memberId", String.valueOf(findMember.getId()));
+            String cookieStr = findMember.getNickname() + "_" + String.valueOf(findMember.getId());
+            Cookie cookie = new Cookie("cookies", cookieStr);
             cookie.setMaxAge(24 * 60 * 60); // 쿠키 유효 시간 설정 (예: 1일)
             cookie.setPath("/"); // 쿠키의 유효 경로 설정 (루트로 설정하면 전체 애플리케이션에서 사용 가능)
 
@@ -59,10 +62,10 @@ public class LoginApiController {
             Member responseMember = new Member();
             responseMember.setId(findMember.getId());
             responseMember.setNickname(findMember.getNickname());
-            return responseMember; // 로그인 성공시 id, nickname 반환
+            return "success";
         }
 
-        return null; // 로그인 실패시 null 반환
+        return "fail";
     }
 
 

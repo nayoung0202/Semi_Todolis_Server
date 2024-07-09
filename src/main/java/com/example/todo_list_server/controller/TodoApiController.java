@@ -56,17 +56,16 @@ public class TodoApiController {
     @GetMapping("")
     public ArrayList<ResponseTodo> readAll() {
 //        System.out.println(todoMapper.getAllContent());
-        System.out.println("GET ALL");
         return todoMapper.getAllContent();
     }
 
     //특정 조회
-    @GetMapping("/{id}")
-    public ArrayList<ResponseTodo> read(@PathVariable long id) {
-//        System.out.println(todoMapper.getById(id));
-        System.out.println("GET id " + id);
-        return todoMapper.getById(id);
+    @GetMapping("/{memberId}")
+    public ArrayList<ResponseTodo> read(@PathVariable long memberId) {
+        System.out.println("GET memberId " + memberId);
+        ArrayList<ResponseTodo> findTodos = todoMapper.getById(memberId);
 
+        return findTodos;
     }
 
     //삭제
